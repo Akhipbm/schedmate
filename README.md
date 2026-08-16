@@ -20,7 +20,7 @@ SchedMate is a tiny FastAPI web app that turns messy everyday notes into a prior
 2. Start Ollama and make sure a model is available:
 
    ```bash
-   ollama pull gemma3:4b
+   ollama pull llama3.1
    ollama serve
    ```
 
@@ -37,5 +37,5 @@ SchedMate is a tiny FastAPI web app that turns messy everyday notes into a prior
 Environment variables:
 
 - `OLLAMA_BASE_URL` defaults to `http://localhost:11434`.
-- `OLLAMA_MODEL` defaults to `gemma3:4b`.
+- `OLLAMA_MODEL` defaults to `llama3.1`.
 - `OLLAMA_TIMEOUT` defaults to `30` seconds.

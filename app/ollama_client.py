@@ -6,7 +6,7 @@ from typing import Any
 
 
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
-DEFAULT_MODEL = "gemma3:4b"
+DEFAULT_MODEL = "llama3.1"
 
 
 class OllamaError(RuntimeError):
