@@ -1,0 +1,1 @@
+"""SchedMate application package."""

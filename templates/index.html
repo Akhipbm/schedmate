@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SchedMate</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">AI planning helper</p>
+        <h1>SchedMate</h1>
+        <p class="lede">Paste messy everyday notes and let Ollama extract tasks, deadlines, priorities, and the best next actions.</p>
+      </section>
+
+      <form class="card planner" action="/analyze" method="post">
+        <label for="messy_text">What is on your mind?</label>
+        <textarea id="messy_text" name="messy_text" rows="9" placeholder="Example: dentist next Friday, finish budget slides before team meeting, call Sam about dinner, renew car registration soon...">{{ messy_text or '' }}</textarea>
+        <button type="submit">Plan my next actions</button>
+      </form>
+
+      {% if error %}
+        <section class="card notice" role="alert">
+          <h2>Could not analyze that yet</h2>
+          <p>{{ error }}</p>
+          {% if hint %}<p class="hint">{{ hint }}</p>{% endif %}
+        </section>
+      {% endif %}
+
+      {% if analysis %}
+        <section class="results">
+          <article class="card summary">
+            <h2>Overview</h2>
+            <p>{{ analysis.summary }}</p>
+          </article>
+
+          <article class="card">
+            <h2>Tasks</h2>
+            {% if analysis.tasks %}
+              <div class="task-list">
+                {% for task in analysis.tasks %}
+                  <div class="task priority-{{ task.priority }}">
+                    <div>
+                      <h3>{{ task.title }}</h3>
+                      <p>{{ task.reason }}</p>
+                    </div>
+                    <dl>
+                      <dt>Deadline</dt>
+                      <dd>{{ task.deadline }}</dd>
+                      <dt>Priority</dt>
+                      <dd>{{ task.priority|title }}</dd>
+                    </dl>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p>No clear tasks were found.</p>
+            {% endif %}
+          </article>
+
+          <article class="card">
+            <h2>Recommended next actions</h2>
+            {% if analysis.next_actions %}
+              <ol class="actions">
+                {% for action in analysis.next_actions %}
+                  <li>{{ action }}</li>
+                {% endfor %}
+              </ol>
+            {% else %}
+              <p>No next actions were suggested.</p>
+            {% endif %}
+          </article>
+        </section>
+      {% endif %}
+    </main>
+  </body>
+</html>
